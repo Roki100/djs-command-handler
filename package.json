@@ -1,6 +1,6 @@
 {
   "name": "@lumap/commandhandler",
-  "version": "1.0.0-documented",
+  "version": "1.0.2",
   "description": "A simple-to-use command handler for discord.js v12",
   "main": "index.js",
   "scripts": {
@@ -28,7 +28,6 @@
   },
   "homepage": "https://github.com/lumap/djs-command-handler#readme",
   "dependencies": {
-    "auto-load": "3.0.4",
     "discord.js": "^12.2.0",
     "fs": "0.0.1-security"
   }

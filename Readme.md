@@ -28,12 +28,13 @@ module.exports = {
     aliases: ['p'],
     description: "Shows bot ping",
     usage: "ping",
+    ownerOnly: false,
     run: async (msg,args,client) => {
         msg.channel.send('Pong! '+client.ws.ping+'ms!')
     }
 }
 ```
-N.B.: Everything between the {} are optional arguments. If you don't provide a prefix, it will be set to "!"
+N.B.: Everything between the { } are optional arguments,you're not forced to provide them. In the examples above,the default values are used. If you don't provide a prefix, it will be set to "!"
 
 # Support #
 If you need support, you can join my discord (https://discord.gg/uWzaaEK) and go to the #npm channel

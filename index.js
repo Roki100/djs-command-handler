@@ -13,7 +13,7 @@ module.exports = class {
         .readdirSync(`${cmdir}`)
         .filter(file => file.endsWith('.js'));
       for (var file of commandFiles) {
-        var command = require(`${cmdir}/${file}`);
+        var command = require(`../../../${cmdir}/${file}`);
         client.commands.set(command.name, command);
         if (command.aliases && Array.isArray(command.aliases)) command.aliases.forEach(alias => client.aliases.set(alias, command.name));
       }
