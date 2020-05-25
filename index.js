@@ -64,23 +64,23 @@ module.exports = class {
         }
         let p=prefix
         if (mentionToKnowPrefix) {
-            if (msg.content === `<@!${client.user.id}>`) return msg.channel.send(`Hi! My prefix in this server is ${p}!!`)
+            if (msg.content === `<@!${this.client.user.id}>`) return msg.channel.send(`Hi! My prefix in this server is ${p}!!`)
         }
         if (mentionAsPrefix) {
-            if (msg.content.startsWith(`<@!${client.user.id}>`)) p=`<@!${client.user.id}>`
+            if (msg.content.startsWith(`<@!${this.client.user.id}>`)) p=`<@!${this.client.user.id}>`
        }
        if (msg.webhookID || msg.channel.type === "dm" || !msg.content || !msg.channel.guild) return;
         if (!msg.content.startsWith(p)) return;
         const commandName = msg.content.slice(p.length).trim().split(' ')[0]
         const args = msg.content.slice(p.length).trim().split(' ').slice(1)
-        const command = client.commands.get(commandName)
-          || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName))
+        const command = this.client.commands.get(commandName)
+          || this.client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName))
         if (!command) return;
         if (command.ownerOnly) {
-          if (!ownerID.includes(message.author.id)) return message.reply("You can't execute this command")
+          if (!this.ownerID.includes(msg.author.id)) return message.reply("You can't execute this command")
         }
         try {
-            command.run(msg,args,client)
+            command.run(msg,args,this.client)
         } catch (e) {
             console.log(e)
             msg.channel.send(`Something went wrong while trying to execute the **${commandName}** command! Check my logs to see what!`)
