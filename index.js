@@ -1,7 +1,8 @@
 const { Collection } = require("discord.js")
 const fs = require('fs')
 module.exports = class {
-    constructor(client,cmdir,ownerID,{helpCommand=false}) {
+    constructor(client,cmdir,ownerID,options) {
+        options = options || {helpCommand: false}
         if (!client) throw new ReferenceError("No client provided")
         if (!cmdir) throw new ReferenceError("No command direcory provided")
         if (!ownerID) throw new ReferenceError("No Owner ID provided")
@@ -17,11 +18,11 @@ module.exports = class {
         client.commands.set(command.name, command);
         if (command.aliases && Array.isArray(command.aliases)) command.aliases.forEach(alias => client.aliases.set(alias, command.name));
       }
-    if (helpCommand) {
+    if (options.helpCommand) {
         function getCMD(msg,args,client) {
-            if (!client.commands.get(args.toLowerCase())){ 
+            if (!client.commands.get(args.toLowerCase())){
                 if (!client.aliases.get(args.toLowerCase())) return msg.channel.send(`No information found for command **${args}**`)
-            } 
+            }
             const cmd = client.commands.get(input.toLowerCase()) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName))
             let info = ""
             if (cmd.name) info = `**Command name**: ${cmd.name}`
@@ -57,16 +58,17 @@ module.exports = class {
         client.aliases.set('h','help')
     }
 }
-    message(msg,prefix="!",{respondsToBots=false,mentionAsPrefix=true,mentionToKnowPrefix=true}) {
+    message(msg,prefix="!",options) {
+        options = options || {respondsToBots: false,mentionAsPrefix: true,mentionToKnowPrefix: true}
         if (!msg) throw new ReferenceError("No message provided")
-        if (!respondsToBots) {
+        if (!options.respondsToBots) {
             if (msg.author.bot) return;
         }
         let p=prefix
-        if (mentionToKnowPrefix) {
-            if (msg.content === `<@!${this.client.user.id}>`) return msg.channel.send(`Hi! My prefix in this server is ${p}!!`)
+        if (options.mentionToKnowPrefix) {
+            if (msg.content === `<@!${this.client.user.id}>`) return msg.channel.send(`Hi! My prefix in this server is **${p}**`)
         }
-        if (mentionAsPrefix) {
+        if (options.mentionAsPrefix) {
             if (msg.content.startsWith(`<@!${this.client.user.id}>`)) p=`<@!${this.client.user.id}>`
        }
        if (msg.webhookID || msg.channel.type === "dm" || !msg.content || !msg.channel.guild) return;
@@ -77,7 +79,7 @@ module.exports = class {
           || this.client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName))
         if (!command) return;
         if (command.ownerOnly) {
-          if (!this.ownerID.includes(msg.author.id)) return message.reply("You can't execute this command")
+          if (!this.ownerID.includes(msg.author.id)) return msg.reply("You can't execute this command")
         }
         try {
             command.run(msg,args,this.client)
