@@ -1,7 +1,7 @@
 {
   "name": "@lumap/commandhandler",
-  "version": "1.0.8",
-  "description": "A simple-to-use command handler for discord.js v12",
+  "version": "1.0.9",
+  "description": "A simple to use command handler for discord.js v12",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

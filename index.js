@@ -1,6 +1,13 @@
-const { Collection } = require("discord.js")
+const Discord = require("discord.js")
 const fs = require('fs')
 module.exports = class {
+    /**
+     * 
+     * @param {Discord.Client} client 
+     * @param {String} cmdir 
+     * @param {String} ownerID 
+     * @param {Object} options 
+     */
     constructor(client,cmdir,ownerID,options) {
         options = options || {helpCommand: false}
         if (!client) throw new ReferenceError("No client provided")
@@ -8,7 +15,7 @@ module.exports = class {
         if (!ownerID) throw new ReferenceError("No Owner ID provided")
         this.client=client
         this.ownerID=ownerID
-        client.commands=new Collection()
+        client.commands=new Discord.Collection()
         client.aliases=new Map()
         var commandFiles = fs
         .readdirSync(`${cmdir}`)
@@ -58,6 +65,12 @@ module.exports = class {
         client.aliases.set('h','help')
     }
 }
+/**
+ * 
+ * @param {Discord.Message} msg 
+ * @param {string} prefix 
+ * @param {Object} options 
+ */
     message(msg,prefix="!",options) {
         options = options || {respondsToBots: false,mentionAsPrefix: true,mentionToKnowPrefix: true}
         if (!msg) throw new ReferenceError("No message provided")
